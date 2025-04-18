@@ -84,6 +84,14 @@ export class ElevenLabsSpeechToText implements INodeType {
 						name: 'Scribe v1 Experimental',
 						value: 'transcribe-v1-verbose',
 					},
+					{
+						name: 'Scribe v2',
+						value: 'transcribe-v2',
+					},
+					{
+						name: 'Scribe v2 Experimental',
+						value: 'transcribe-v2-verbose',
+					},
 				],
 				default: 'transcribe-v1',
 				description: 'Modelo para conversão de fala em texto',
