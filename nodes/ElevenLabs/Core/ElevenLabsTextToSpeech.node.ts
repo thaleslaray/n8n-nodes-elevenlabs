@@ -65,6 +65,18 @@ export class ElevenLabsTextToSpeech implements INodeType {
 						name: 'Eleven English v1',
 						value: 'eleven_english_v1',
 					},
+					{
+						name: 'Eleven Multilingual v1',
+						value: 'eleven_multilingual_v1',
+					},
+					{
+						name: 'Eleven Monolingual v1',
+						value: 'eleven_monolingual_v1',
+					},
+					{
+						name: 'Eleven Flash v2.5',
+						value: 'eleven_flash_v2.5',
+					},
 				],
 				default: 'eleven_multilingual_v2',
 				description: 'Modelo de síntese de fala a ser usado',

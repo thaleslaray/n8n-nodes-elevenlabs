@@ -73,20 +73,28 @@ export class ElevenLabsSpeechToText implements INodeType {
 			},
 			{
 				displayName: 'Modelo',
-				name: 'model',
+				name: 'modelId',
 				type: 'options',
 				options: [
 					{
 						name: 'Scribe v1',
-						value: 'scribe_v1',
+						value: 'transcribe-v1',
 					},
 					{
 						name: 'Scribe v1 Experimental',
-						value: 'scribe_v1_experimental',
-					}
+						value: 'transcribe-v1-verbose',
+					},
+					{
+						name: 'Scribe v2',
+						value: 'transcribe-v2',
+					},
+					{
+						name: 'Scribe v2 Experimental',
+						value: 'transcribe-v2-verbose',
+					},
 				],
-				default: 'scribe_v1',
-				description: 'Modelo de transcrição a ser usado',
+				default: 'transcribe-v1',
+				description: 'Modelo para conversão de fala em texto',
 			},
 			{
 				displayName: 'Opções Avançadas',
@@ -178,7 +186,7 @@ export class ElevenLabsSpeechToText implements INodeType {
 		for (let i = 0; i < items.length; i++) {
 			try {
 				const audioSource = this.getNodeParameter('audioSource', i) as string;
-				const model = this.getNodeParameter('model', i) as string;
+				const model = this.getNodeParameter('modelId', i) as string;
 				const advancedOptions = this.getNodeParameter('advancedOptions', i) as {
 					languageCode?: string;
 					diarization?: boolean;
