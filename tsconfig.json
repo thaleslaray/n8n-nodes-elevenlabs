@@ -11,7 +11,8 @@
     "outDir": "./dist",
     "rootDir": "./",
     "skipLibCheck": true,
-    "esModuleInterop": true
+    "esModuleInterop": true,
+    "noImplicitAny": false
   },
   "include": ["credentials/**/*", "nodes/**/*", "nodes/**/*.json", "package.json"],
   "exclude": ["node_modules/**/*", "dist/**/*"]

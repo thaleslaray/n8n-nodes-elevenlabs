@@ -1,6 +1,6 @@
 {
   "name": "@thaleslaray/n8n-nodes-elevenlabs",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "Nó n8n para integração com a API da ElevenLabs incluindo Speech-to-Text, Text-to-Speech e Conversational AI",
   "keywords": [
     "n8n-community-node-package",
@@ -13,7 +13,10 @@
     "agents",
     "knowledge-base",
     "audio",
-    "ai"
+    "ai",
+    "voice-changer",
+    "sound-effects",
+    "speech-to-speech"
   ],
   "license": "MIT",
   "homepage": "https://github.com/thaleslaray/n8n-nodes-elevenlabs",
@@ -45,8 +48,12 @@
     "nodes": [
       "dist/nodes/ElevenLabs/Core/ElevenLabsSpeechToText.node.js",
       "dist/nodes/ElevenLabs/Core/ElevenLabsTextToSpeech.node.js",
+      "dist/nodes/ElevenLabs/Core/Audio/ElevenLabsSpeechToSpeech.node.js",
+      "dist/nodes/ElevenLabs/Core/Audio/ElevenLabsSoundEffects.node.js",
+      "dist/nodes/ElevenLabs/Core/Audio/ElevenLabsVoiceChanger.node.js",
       "dist/nodes/ElevenLabs/ConversationalAI/ElevenLabsAgents.node.js",
-      "dist/nodes/ElevenLabs/ConversationalAI/ElevenLabsKnowledgeBase.node.js"
+      "dist/nodes/ElevenLabs/ConversationalAI/ElevenLabsKnowledgeBase.node.js",
+      "dist/nodes/ElevenLabs/ElevenLabs.node.js"
     ]
   },
   "devDependencies": {
