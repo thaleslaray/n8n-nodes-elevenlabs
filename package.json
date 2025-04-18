@@ -1,6 +1,6 @@
 {
   "name": "@thaleslaray/n8n-nodes-elevenlabs",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "description": "Nó n8n para integração com a API da ElevenLabs incluindo Speech-to-Text, Text-to-Speech e Conversational AI",
   "keywords": [
     "n8n-community-node-package",
@@ -70,4 +70,4 @@
   "dependencies": {
     "request": "^2.88.2"
   }
-} 
+}
