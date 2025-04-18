@@ -1,13 +1,17 @@
 {
   "name": "@thaleslaray/n8n-nodes-elevenlabs",
-  "version": "0.1.1",
-  "description": "Nó n8n para integração com a API de Speech-to-Text da ElevenLabs",
+  "version": "0.2.0",
+  "description": "Nó n8n para integração com a API da ElevenLabs incluindo Speech-to-Text, Text-to-Speech e Conversational AI",
   "keywords": [
     "n8n-community-node-package",
     "n8n",
     "elevenlabs",
     "speech-to-text",
+    "text-to-speech",
     "transcription",
+    "conversational-ai",
+    "agents",
+    "knowledge-base",
     "audio",
     "ai"
   ],
@@ -39,7 +43,10 @@
       "dist/credentials/ElevenLabsApi.credentials.js"
     ],
     "nodes": [
-      "dist/nodes/ElevenLabs/ElevenLabsSpeechToText.node.js"
+      "dist/nodes/ElevenLabs/Core/ElevenLabsSpeechToText.node.js",
+      "dist/nodes/ElevenLabs/Core/ElevenLabsTextToSpeech.node.js",
+      "dist/nodes/ElevenLabs/ConversationalAI/ElevenLabsAgents.node.js",
+      "dist/nodes/ElevenLabs/ConversationalAI/ElevenLabsKnowledgeBase.node.js"
     ]
   },
   "devDependencies": {

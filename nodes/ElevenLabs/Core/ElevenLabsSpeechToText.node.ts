@@ -5,13 +5,13 @@ import {
 	INodeTypeDescription,
 	NodeOperationError,
 } from 'n8n-workflow';
-import { OptionsWithUri } from 'request';
+import { createBaseOptions, handleApiError, formatReturnData } from '../utils';
 
 export class ElevenLabsSpeechToText implements INodeType {
 	description: INodeTypeDescription = {
 		displayName: 'ElevenLabs Speech-to-Text',
 		name: 'elevenLabsSpeechToText',
-		icon: 'file:elevenlabs.svg',
+		icon: 'file:../elevenlabs.svg',
 		group: ['transform'],
 		version: 1,
 		subtitle: '={{$parameter["operation"]}}',
@@ -188,8 +188,6 @@ export class ElevenLabsSpeechToText implements INodeType {
 					fileFormat?: string;
 				};
 
-				const credentials = await this.getCredentials('elevenLabsApi');
-
 				const formData: Record<string, any> = {
 					model_id: model,
 				};
@@ -219,16 +217,7 @@ export class ElevenLabsSpeechToText implements INodeType {
 					formData.file_format = advancedOptions.fileFormat;
 				}
 
-				const options: OptionsWithUri = {
-					headers: {
-						'xi-api-key': credentials.apiKey,
-						'Accept': 'application/json',
-					},
-					method: 'POST',
-					uri: 'https://api.elevenlabs.io/v1/speech-to-text',
-					formData,
-					json: true,
-				};
+				const options = await createBaseOptions.call(this, 'speech-to-text', 'POST', undefined, formData);
 
 				if (audioSource === 'binaryFile') {
 					const binaryPropertyName = this.getNodeParameter('binaryPropertyName', i) as string;
@@ -253,19 +242,11 @@ export class ElevenLabsSpeechToText implements INodeType {
 				}
 
 				const response = await this.helpers.request(options);
-
-				returnData.push({
-					json: response,
-					pairedItem: { item: i },
-				});
+				returnData.push(formatReturnData(response, i));
 			} catch (error) {
-				if (this.continueOnFail()) {
-					returnData.push({
-						json: {
-							error: error.message,
-						},
-						pairedItem: { item: i },
-					});
+				const errorResult = handleApiError.call(this, error, i);
+				if (errorResult) {
+					returnData.push(errorResult);
 					continue;
 				}
 				throw error;
