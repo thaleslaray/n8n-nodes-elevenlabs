@@ -12,6 +12,22 @@ npm install @thaleslaray/n8n-nodes-elevenlabs
 
 Este comando instala o pacote no diretório de módulos do n8n.
 
+#### Para n8n instalado globalmente
+
+Se você instalou o n8n globalmente, execute:
+
+```bash
+cd /usr/local/lib/node_modules/n8n
+npm install @thaleslaray/n8n-nodes-elevenlabs
+```
+
+#### Para n8n instalado em pasta específica
+
+```bash
+cd /caminho/para/pasta/n8n
+npm install @thaleslaray/n8n-nodes-elevenlabs
+```
+
 ### Método 2: Instalação manual (para desenvolvimento)
 
 1. Clone o repositório:
@@ -94,14 +110,68 @@ npm update -g n8n
 npm install @thaleslaray/n8n-nodes-elevenlabs
 ```
 
-#### Opção 4: Instalação global para contêineres Docker
+Para uso com PM2:
 
-Se você estiver usando Docker, certifique-se de incluir a instalação do pacote no seu Dockerfile:
+```bash
+#!/bin/bash
+# update-n8n.sh
+
+# Parar o serviço n8n
+pm2 stop n8n
+
+# Atualizar o n8n
+npm update -g n8n
+
+# Reinstalar nós personalizados
+cd /usr/local/lib/node_modules/n8n
+npm install @thaleslaray/n8n-nodes-elevenlabs
+
+# Reiniciar o serviço
+pm2 start n8n
+```
+
+#### Opção 4: Instalação em ambiente Docker
+
+Se você estiver usando Docker, inclua a instalação do pacote no seu Dockerfile:
 
 ```dockerfile
 FROM n8nio/n8n:latest
 
 RUN npm install @thaleslaray/n8n-nodes-elevenlabs
+```
+
+Para instância Docker já em execução:
+
+```bash
+# Acesse o contêiner do n8n
+docker exec -it seu-container-n8n /bin/bash
+
+# Dentro do contêiner, instale o pacote
+npm install @thaleslaray/n8n-nodes-elevenlabs
+
+# Saia e reinicie o contêiner
+exit
+docker restart seu-container-n8n
+```
+
+#### Opção 5: Uso com Docker Compose
+
+Adicione um volume personalizado no seu arquivo docker-compose.yml e instale pacotes externos nesse volume:
+
+```yaml
+version: '3'
+services:
+  n8n:
+    image: n8nio/n8n
+    ports:
+      - "5678:5678"
+    volumes:
+      - ~/.n8n:/home/node/.n8n
+      - ./custom-nodes:/custom-nodes
+    environment:
+      - N8N_CUSTOM_EXTENSIONS=/custom-nodes
+    command: >
+      sh -c "cd /custom-nodes && npm install @thaleslaray/n8n-nodes-elevenlabs && n8n start"
 ```
 
 ## Verificando a Instalação
@@ -128,10 +198,66 @@ Se você encontrar erros de permissão, tente:
 sudo npm install -g @thaleslaray/n8n-nodes-elevenlabs
 ```
 
+Para resolver problemas mais complexos de permissão:
+```bash
+# Verifique o proprietário da pasta node_modules
+ls -la /caminho/para/n8n/node_modules
+
+# Altere o proprietário se necessário
+sudo chown -R seu-usuario:seu-grupo /caminho/para/n8n/node_modules
+```
+
 ### O n8n não reconhece os nós
 
 Verifique se o caminho de instalação do n8n está correto e se o diretório `node_modules` do n8n contém a pasta `@thaleslaray/n8n-nodes-elevenlabs`.
 
+```bash
+# Verifique onde o n8n está instalado
+which n8n
+
+# Verifique se o pacote está instalado
+ls -la /caminho/para/n8n/node_modules/@thaleslaray
+```
+
 ### Versões incompatíveis
 
-Verifique a compatibilidade entre a versão do seu n8n e a versão do pacote. Você pode precisar atualizar ou fazer downgrade da versão do pacote para garantir a compatibilidade. 
+Verifique a compatibilidade entre a versão do seu n8n e a versão do pacote:
+
+```bash
+# Verifique a versão do n8n
+n8n --version
+
+# Verifique a versão do pacote
+npm list @thaleslaray/n8n-nodes-elevenlabs
+```
+
+Você pode precisar atualizar ou fazer downgrade da versão do pacote para garantir a compatibilidade. O pacote é compatível com n8n versão 0.214.0 e superior.
+
+### Logs de erro
+
+Se os nós ainda não aparecerem, verifique os logs de erro:
+
+```bash
+# Para n8n executando no modo normal
+n8n start
+
+# Para n8n executando como serviço via systemd
+sudo journalctl -u n8n
+
+# Para n8n executando com PM2
+pm2 logs n8n
+```
+
+## Usando os nós ElevenLabs
+
+Após a instalação bem-sucedida, você encontrará os seguintes nós disponíveis no n8n:
+
+1. **ElevenLabs Text-to-Speech** - Converte texto em fala
+2. **ElevenLabs Speech-to-Text** - Converte áudio em texto
+3. **ElevenLabs Voice Changer** - Modifica vozes
+4. **ElevenLabs Sound Effects** - Adiciona efeitos sonoros
+5. **ElevenLabs Speech to Speech** - Converte fala de uma voz para outra
+6. **ElevenLabs Agents** - Interação com agentes conversacionais da ElevenLabs
+7. **ElevenLabs Knowledge Base** - Interação com bases de conhecimento da ElevenLabs
+
+Para configurar qualquer um desses nós, você precisará de uma chave de API da ElevenLabs, que pode ser obtida em [https://elevenlabs.io/](https://elevenlabs.io/) após criar uma conta. 
